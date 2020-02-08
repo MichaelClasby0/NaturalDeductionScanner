@@ -1,6 +1,5 @@
 package com.hack.naturaldeductionscanner
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,18 +8,18 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
-import kotlinx.android.synthetic.main.card_item_layout.view.*
+import kotlinx.android.synthetic.main.proof_card_item_layout.view.*
 import java.io.File
 
 
-class CardItemAdapter(private val listener: (Int) -> Unit) :
-    ListAdapter<ProofCard, CardItemAdapter.ViewHolder>(
+class ProofCardItemAdapter(private val listener: (Int) -> Unit) :
+    ListAdapter<ProofCard, ProofCardItemAdapter.ViewHolder>(
         FormatDiffer
     ) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             parent.inflate(
-                R.layout.card_item_layout,
+                R.layout.proof_card_item_layout,
                 false
             )
         )
@@ -38,7 +37,7 @@ class CardItemAdapter(private val listener: (Int) -> Unit) :
         private var view: View = v
 
         fun bindItem(item: ProofCard) {
-            view.title.text = item.title
+            view.proofTitle.text = item.title
             view.date.text = item.date
             view.verified.text = item.verified
             //Log.d("S", item.image)
