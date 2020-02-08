@@ -1,18 +1,23 @@
 package com.hack.naturaldeductionscanner
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.activity_tutorial_menul.*
+import kotlinx.android.synthetic.main.activity_tutorial_menu.*
 import kotlinx.android.synthetic.main.settings_activity.btnBack
 
 class TutorialMenuActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_tutorial_menul)
+        setContentView(R.layout.activity_tutorial_menu)
 
-        val tutorialCardAdapter = TutorialCardItemAdapter {
+        val tutorialCardAdapter = TutorialCardItemAdapter {card ->
+
+            val intent = Intent(this, TutorialActivity::class.java)
+            intent.putExtra("name", card.title)
+            startActivity(intent)
 
         }
 

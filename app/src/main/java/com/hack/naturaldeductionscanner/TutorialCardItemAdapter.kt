@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.tutorial_card_item_layout.view.*
 import java.io.File
 
 
-class TutorialCardItemAdapter(private val listener: (Int) -> Unit) :
+class TutorialCardItemAdapter(private val listener: (TutorialCard) -> Unit) :
     ListAdapter<TutorialCard, TutorialCardItemAdapter.ViewHolder>(
         FormatDiffer
     ) {
@@ -25,13 +25,15 @@ class TutorialCardItemAdapter(private val listener: (Int) -> Unit) :
                 false
             )
         )
+
+
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
         holder.bindItem(item)
         holder.itemView.setOnClickListener {
-            listener(position)
+            listener(item)
         }
     }
 
@@ -45,6 +47,8 @@ class TutorialCardItemAdapter(private val listener: (Int) -> Unit) :
 
         }
     }
+
+
 
     private fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false): View {
         return LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot)
