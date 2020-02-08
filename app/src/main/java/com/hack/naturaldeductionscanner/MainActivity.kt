@@ -21,9 +21,11 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        val list = ArrayList<String>()
+        //val testCard = ProofCard("Title", "08/02/2020", "True", "Image")
+
+        val list = ArrayList<ProofCard>()
         for (x in 0..10) {
-            list.add("Hello")
+            list.add(ProofCard("Title $x", "08/02/2020", "True", "Image"))
         }
         cardAdapter.submitList(list)
     }

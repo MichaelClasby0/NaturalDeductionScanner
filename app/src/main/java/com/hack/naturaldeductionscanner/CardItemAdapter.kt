@@ -9,11 +9,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.card_item_layout.view.*
 
-data class ProofCard(var Title : String,
-                     var Date : String,
-                     var Verified : Boolean,
-                     var Image : String)
-)
+data class ProofCard(var title : String,
+                     var date : String,
+                     var verified : String,
+                     var image : String)
+
 
 class CardItemAdapter(private val listener: (Int) -> Unit) :
     ListAdapter<ProofCard, CardItemAdapter.ViewHolder>(
@@ -40,8 +40,10 @@ class CardItemAdapter(private val listener: (Int) -> Unit) :
         private var view: View = v
 
         fun bindItem(item: ProofCard) {
-            view.title.text = item.Title
-            view.date.text = item.Date
+            view.title.text = item.title
+            view.date.text = item.date
+            view.verified.text = item.verified
+
 
         }
     }
