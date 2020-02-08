@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        
+
 
         //val testCard = ProofCard("Title", "08/02/2020", "True", "Image")
 

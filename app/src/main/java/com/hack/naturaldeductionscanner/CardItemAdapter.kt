@@ -12,11 +12,6 @@ import coil.api.load
 import kotlinx.android.synthetic.main.card_item_layout.view.*
 import java.io.File
 
-data class ProofCard(var title : String,
-                     var date : String,
-                     var verified : String,
-                     var image : String)
-
 
 class CardItemAdapter(private val listener: (Int) -> Unit) :
     ListAdapter<ProofCard, CardItemAdapter.ViewHolder>(
