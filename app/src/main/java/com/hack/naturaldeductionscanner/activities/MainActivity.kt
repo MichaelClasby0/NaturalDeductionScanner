@@ -10,9 +10,12 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.media.ExifInterface
+import android.os.FileObserver
 import android.util.Log
 import android.view.View
 import androidx.camera.view.CameraView
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.liveData
 import com.hack.naturaldeductionscanner.R
 import com.hack.naturaldeductionscanner.adapters.ProofCard
 import com.hack.naturaldeductionscanner.adapters.ProofCardItemAdapter
@@ -29,6 +32,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.jvm.internal.MutablePropertyReference
 
 
 class MainActivity : AppCompatActivity() {
@@ -45,6 +49,8 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
+    private val cards: MutableLiveData<MutableList<ProofCard>> = MutableLiveData()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,38 +86,63 @@ class MainActivity : AppCompatActivity() {
 
         //val testCard = ProofCard("Title", "08/02/2020", "True", "Image")
 
-        val storageFile = this.getExternalFilesDir(null)
 
-        val fileNameList = ArrayList<String>()
-
-        val logicImagePath = storageFile!!.absolutePath + "/"
-
-        var allFiles = storageFile!!.listFiles()
-        if (allFiles != null && allFiles.size > 0) {
-            for (currentFile in allFiles) {
-                if (currentFile.name.endsWith(".png")) {
-                    // File absolute path
-                    Log.e("FilePath", currentFile.absolutePath)
-                    // File Name
-                    Log.e("FileName", currentFile.name)
-                    fileNameList.add(currentFile.name)
-                }
-            }
-        }
 
         //val testImage = logicImagePath + "Proof1.png"
-        val list = ArrayList<ProofCard>()
 
-        for (imageName in fileNameList) {
-            val tempFile = File(logicImagePath + imageName)
-            val modifiedDate = Date(tempFile.lastModified())
-            list.add(ProofCard(imageName, modifiedDate.toString(), "True", logicImagePath + imageName))
-        }
 
 //        for (x in 0..10) {
 //            list.add(ProofCard("Title $x", "08/02/2020", "True", testImage))
 //        }
-        cardAdapter.submitList(list)
+
+        getAllProofs()
+
+        cards.observe(this, androidx.lifecycle.Observer {
+            cardAdapter.submitList(it)
+        })
+
+        val observer = object: FileObserver(applicationContext.getExternalFilesDir(null)!!) { /* set up a file observer to watch this directory on sd card */
+            override fun onEvent(p0: Int, p1: String?) {
+                if (!cards.value!!.map { it.image == p1 }.any()) {
+                    cards.value!!.add(getProofCard(File(p1!!)))
+                }
+            }
+        }
+
+        observer.startWatching()
+
+
+    }
+
+    private fun getProofCard(currentFile:File): ProofCard {
+        val logicImagePath = applicationContext.getExternalFilesDir(null)!!.absolutePath + "/"
+        Log.e("FilePath", currentFile.absolutePath)
+        // File Name
+        Log.e("FileName", currentFile.name)
+        val tempFile = File(logicImagePath + currentFile.name)
+        val modifiedDate = Date(tempFile.lastModified())
+
+        return ProofCard(currentFile.name, modifiedDate.toString(), "True", logicImagePath + currentFile.name)
+
+    }
+
+
+    private fun getAllProofs() {
+        val storageFile = applicationContext.getExternalFilesDir(null)
+
+        val list = mutableListOf<ProofCard>()
+
+        val allFiles = storageFile!!.listFiles()
+        if (allFiles != null && allFiles.isNotEmpty()) {
+            for (currentFile in allFiles) {
+                if (currentFile.name.endsWith(".jpeg")) {
+                    // File absolute path
+                    list.add(getProofCard(currentFile))
+                }
+            }
+        }
+
+        cards.value = list
     }
 
     override fun onResume() {
