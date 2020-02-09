@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
-import com.hack.naturaldeductionscanner.ProofCard
 import com.hack.naturaldeductionscanner.R
 import kotlinx.android.synthetic.main.proof_card_item_layout.view.*
 import java.io.File
