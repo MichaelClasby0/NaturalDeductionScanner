@@ -11,9 +11,11 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.afollestad.materialdialogs.MaterialDialog
 import com.hack.naturaldeductionscanner.R
 import com.hack.naturaldeductionscanner.adapters.ProofCard
 import com.hack.naturaldeductionscanner.adapters.ProofCardItemAdapter
+import com.hack.naturaldeductionscanner.proofverification.ProofVerifier
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -22,11 +24,6 @@ import kotlinx.coroutines.withContext
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
-import org.opencv.android.Utils
-import org.opencv.core.CvType
-import org.opencv.core.Mat
-import org.opencv.core.Scalar
-import org.tensorflow.lite.Interpreter
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
@@ -36,6 +33,28 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
     private val cards: MutableLiveData<MutableList<ProofCard>> = MutableLiveData()
 
+    private fun processLines(allLines: String): String {
+        val proofVerifier = ProofVerifier()
+        val result: Int = proofVerifier.verifyProof(allLines)
+        //0 proof is fine
+        //-1 parsing error
+        //otherwise = line error number
+        Log.d("input", allLines)
+        Log.d("Proof Result", result.toString())
+
+        var verificationMessage = ""
+
+        verificationMessage = when (result) {
+            0 -> "Proof is correct!"
+            (-1) -> "Parsing error, check your proof is in the correct layout"
+            else -> "Error on line$result"
+        }
+
+        return verificationMessage
+
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -44,16 +63,17 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(Intent(this, CameraActivity::class.java), 1)
         }
 
-        open_input.setOnClickListener{
+        open_input.setOnClickListener {
             val intent = Intent(this, ProofTextInputActivity::class.java)
             startActivity(intent)
         }
 
         val cardAdapter =
-            ProofCardItemAdapter {path ->
+            ProofCardItemAdapter { path ->
                 val intent = Intent(this, ProofViewActivity::class.java)
                 intent.putExtra("path", path)
                 startActivity(intent)
+            }
 
 
         mainRecyclerView.apply {
@@ -132,8 +152,10 @@ class MainActivity : AppCompatActivity() {
         return ProofCard(
             currentFile.name,
             modifiedDate.toString(),
-            "True",
-            logicImagePath + currentFile.name
+            "Pending",
+            logicImagePath + currentFile.name,
+            currentFile.absolutePath,
+            ""
         )
 
     }
@@ -182,7 +204,12 @@ class MainActivity : AppCompatActivity() {
                     .build()
 
                 postRequest(postUrl, postBodyImage).observe(this, androidx.lifecycle.Observer {
-                    Log.d("POST", it)
+                    val message = processLines(it)
+                    MaterialDialog(this).show {
+                        title(text = "Proof Verification")
+                        message(text = message)
+                        negativeButton(text = "Close")
+                    }
                 })
             }
         }

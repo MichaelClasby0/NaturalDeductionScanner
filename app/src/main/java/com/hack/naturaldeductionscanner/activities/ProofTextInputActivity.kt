@@ -21,6 +21,28 @@ import com.hack.naturaldeductionscanner.proofverification.ProofVerifier
 
 class ProofTextInputActivity : AppCompatActivity() {
 
+     private fun processLines(allLines: String): String {
+        val proofVerifier = ProofVerifier()
+        val result: Int = proofVerifier.verifyProof(allLines)
+        //0 proof is fine
+        //-1 parsing error
+        //otherwise = line error number
+        Log.d("input", allLines)
+        Log.d("Proof Result", result.toString())
+
+        var verificationMessage = ""
+
+        verificationMessage = when (result) {
+            0 -> "Proof is correct!"
+            (-1) -> "Parsing error, check your proof is in the correct layout"
+            else -> "Error on line$result"
+        }
+
+        return verificationMessage
+
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_proof_text_input)
@@ -61,33 +83,6 @@ class ProofTextInputActivity : AppCompatActivity() {
 
         textView.textSize = 18f
 
-        fun processLines(allLines: String) {
-            val proofVerifier = ProofVerifier()
-            val result: Int = proofVerifier.verifyProof(allLines)
-            //0 proof is fine
-            //-1 parsing error
-            //otherwise = line error number
-            Log.d("input", allLines)
-            Log.d("Proof Result", result.toString())
-
-            var verificationMessage = ""
-
-            verificationMessage = when (result) {
-                0 -> "Proof is correct!"
-                (-1) -> "Parsing error, check your proof is in the correct layout"
-                else -> "Error on line$result"
-            }
-
-            textView.text = verificationMessage
-
-
-            // Add TextView to LinearLayout
-            if (!lineAdded) {
-                linearLayout?.addView(textView)
-                lineAdded = true
-            }
-        }
-
         btnSave.setOnClickListener {
             val linesList = ArrayList<String>()
             linesList.clear()
@@ -102,7 +97,16 @@ class ProofTextInputActivity : AppCompatActivity() {
                     linesConcat += nextLine.replace("\\s".toRegex(), "")
                 }
             }
-            processLines(linesConcat)
+            val verificationMessage = processLines(linesConcat)
+
+            textView.text = verificationMessage
+
+
+            // Add TextView to LinearLayout
+            if (!lineAdded) {
+                linearLayout?.addView(textView)
+                lineAdded = true
+            }
         }
 
 
@@ -110,6 +114,8 @@ class ProofTextInputActivity : AppCompatActivity() {
         btnBack.setOnClickListener {
             finish()
         }
+
+
     }
 }
 

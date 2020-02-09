@@ -11,7 +11,6 @@ import kotlinx.android.synthetic.main.activity_tutorial_menu.*
 import kotlinx.android.synthetic.main.settings_activity.btnBack
 
 
-
 class TutorialMenuActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,17 +45,25 @@ class TutorialMenuActivity : AppCompatActivity() {
 //            )
 //        }
 
-        list.add(TutorialCard(
-            "My first proof!",
-            "The first tutorial to introduce you to the And-Introduction rule.".trimMargin(),
-            "Not attempted"
-        ))
+        list.add(
+            TutorialCard(
+                "My first proof!",
+                "The first tutorial to introduce you to the And-Introduction rule.".trimMargin(),
+                "Not attempted",
+                "",
+                ""
+            )
+        )
 
-        list.add(TutorialCard(
-            "Your second proof!",
-            "The second tutorial to introduce you to the And-Elimination rule.".trimMargin(),
-            "Not attempted"
-        ))
+        list.add(
+            TutorialCard(
+                "Your second proof!",
+                "The second tutorial to introduce you to the And-Elimination rule.".trimMargin(),
+                "Not attempted",
+                "",
+                ""
+            )
+        )
 
         tutorialCardAdapter.submitList(list)
 

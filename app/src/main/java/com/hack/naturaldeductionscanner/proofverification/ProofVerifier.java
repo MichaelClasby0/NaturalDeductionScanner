@@ -33,6 +33,15 @@ public class ProofVerifier {
         } catch (Exception e) {
             return -1;
         }
+
+        StringBuilder str = new StringBuilder();
+        for (String line : linesFromWholeProof) {
+            str.append(line);
+        }
+        if (!proof.equals(str.toString())) {
+            return -1;
+        }
+
         List<Line> lines = new ArrayList<>();
         for (int i = 0; i < linesFromWholeProof.size(); i++) {
             try{
