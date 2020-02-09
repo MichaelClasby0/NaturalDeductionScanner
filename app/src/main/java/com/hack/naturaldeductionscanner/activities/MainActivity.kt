@@ -61,7 +61,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         val cardAdapter =
-            ProofCardItemAdapter {
+            ProofCardItemAdapter {path ->
+                val intent = Intent(this, ProofViewActivity::class.java)
+                intent.putExtra("path", path)
+                startActivity(intent)
 
             }
 
@@ -122,7 +125,7 @@ class MainActivity : AppCompatActivity() {
         val tempFile = File(logicImagePath + currentFile.name)
         val modifiedDate = Date(tempFile.lastModified())
 
-        return ProofCard(currentFile.name, modifiedDate.toString(), "True", logicImagePath + currentFile.name)
+        return ProofCard(currentFile.name, modifiedDate.toString(), "True", logicImagePath + currentFile.name,currentFile.absolutePath)
 
     }
 

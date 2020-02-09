@@ -1,5 +1,6 @@
 package com.hack.naturaldeductionscanner.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,13 +14,15 @@ import kotlinx.android.synthetic.main.proof_card_item_layout.view.*
 import java.io.File
 
 
+data class ProofCard(
+    var title: String,
+    var date: String,
+    var verified: String,
+    var image: String,
+    var fullPath: String
+)
 
-data class ProofCard(var title : String,
-                     var date : String,
-                     var verified : String,
-                     var image : String)
-
-class ProofCardItemAdapter(private val listener: (Int) -> Unit) :
+class ProofCardItemAdapter(private val listener: (String) -> Unit) :
     ListAdapter<ProofCard, ProofCardItemAdapter.ViewHolder>(
         FormatDiffer
     ) {
@@ -32,11 +35,36 @@ class ProofCardItemAdapter(private val listener: (Int) -> Unit) :
         )
     }
 
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
+
+
+
+        holder.bindItem(item)
+        //Trash button click listener
+        holder.itemView.btnTrash.setOnClickListener {
+
+//            MaterialDialog(holder.itemView.context).show {
+//                title(text = "Delete Proof ?")
+//                message(text = "Would you like to delete the selected proof?")
+//                positiveButton(text = "Delete") {
+//                    //File(item.fullPath).delete()
+//                    //Log.d("PATH",item.fullPath)
+//                }
+//                negativeButton(text = "Cancel") { dialog ->
+//                    dialog.cancel()
+//                }
+//            }
+
+        }
+
+
+
         holder.bindItem(item)
         holder.itemView.setOnClickListener {
-            listener(position)
+            Log.d("CARD", "CLICKED")
+            listener(item.fullPath)
         }
     }
 

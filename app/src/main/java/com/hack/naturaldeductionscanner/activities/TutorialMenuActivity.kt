@@ -27,6 +27,8 @@ class TutorialMenuActivity : AppCompatActivity() {
 
             }
 
+
+
         tutorialRecyclerView.apply {
             layoutManager = LinearLayoutManager(this@TutorialMenuActivity)
             adapter = tutorialCardAdapter
