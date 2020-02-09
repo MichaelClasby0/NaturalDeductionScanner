@@ -36,15 +36,28 @@ class TutorialMenuActivity : AppCompatActivity() {
         }
 
         val list = ArrayList<TutorialCard>()
-        for (x in 0..10) {
-            list.add(
-                TutorialCard(
-                    "Tutorial $x",
-                    "Test tutorial description To teach you how to do something sure why not Test tutorial description testing testing testing".trimMargin(),
-                    "Completed!"
-                )
-            )
-        }
+//        for (x in 0..10) {
+//            list.add(
+//                TutorialCard(
+//                    "Tutorial $x",
+//                    "Test tutorial description To teach you how to do something sure why not Test tutorial description testing testing testing".trimMargin(),
+//                    "Completed!"
+//                )
+//            )
+//        }
+
+        list.add(TutorialCard(
+            "My first proof!",
+            "The first tutorial to introduce you to the And-Introduction rule.".trimMargin(),
+            "Not attempted"
+        ))
+
+        list.add(TutorialCard(
+            "Your second proof!",
+            "The second tutorial to introduce you to the And-Elimination rule.".trimMargin(),
+            "Not attempted"
+        ))
+
         tutorialCardAdapter.submitList(list)
 
         //Clicking back button to go back to main activity

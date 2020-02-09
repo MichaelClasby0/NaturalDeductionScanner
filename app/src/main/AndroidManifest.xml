@@ -14,7 +14,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.ProofViewActivity"></activity>
+        <activity android:name=".activities.ProofTextInputActivity"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity android:name=".activities.DynamicEditTextActivity" />
+        <activity android:name=".activities.ProofViewActivity" />
         <activity
             android:name=".activities.CameraActivity"
             android:theme="@style/Camera" />

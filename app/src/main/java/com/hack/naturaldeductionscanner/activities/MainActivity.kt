@@ -60,6 +60,11 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(Intent(this, CameraActivity::class.java), 1)
         }
 
+        open_input.setOnClickListener{
+            val intent = Intent(this, ProofTextInputActivity::class.java)
+            startActivity(intent)
+        }
+
         val cardAdapter =
             ProofCardItemAdapter {path ->
                 val intent = Intent(this, ProofViewActivity::class.java)
@@ -125,7 +130,7 @@ class MainActivity : AppCompatActivity() {
         val tempFile = File(logicImagePath + currentFile.name)
         val modifiedDate = Date(tempFile.lastModified())
 
-        return ProofCard(currentFile.name, modifiedDate.toString(), "True", logicImagePath + currentFile.name,currentFile.absolutePath)
+        return ProofCard(currentFile.name, modifiedDate.toString(), "Pending", logicImagePath + currentFile.name,currentFile.absolutePath,"")
 
     }
 

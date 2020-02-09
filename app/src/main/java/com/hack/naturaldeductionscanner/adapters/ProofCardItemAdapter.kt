@@ -19,7 +19,8 @@ data class ProofCard(
     var date: String,
     var verified: String,
     var image: String,
-    var fullPath: String
+    var fullPath: String,
+    var parsedLogic: String
 )
 
 class ProofCardItemAdapter(private val listener: (String) -> Unit) :
@@ -49,7 +50,7 @@ class ProofCardItemAdapter(private val listener: (String) -> Unit) :
 //                title(text = "Delete Proof ?")
 //                message(text = "Would you like to delete the selected proof?")
 //                positiveButton(text = "Delete") {
-//                    //File(item.fullPath).delete()
+                    File(item.fullPath).delete()
 //                    //Log.d("PATH",item.fullPath)
 //                }
 //                negativeButton(text = "Cancel") { dialog ->
