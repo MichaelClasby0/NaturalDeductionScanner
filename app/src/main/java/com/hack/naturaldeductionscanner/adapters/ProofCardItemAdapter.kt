@@ -38,10 +38,10 @@ class ProofCardItemAdapter(private val listener: (String) -> Unit) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-
-
-
         holder.bindItem(item)
+
+
+
         //Trash button click listener
         holder.itemView.btnTrash.setOnClickListener {
 
@@ -61,9 +61,12 @@ class ProofCardItemAdapter(private val listener: (String) -> Unit) :
 
 
 
-        holder.bindItem(item)
+
+        holder.itemView.imgCard.setOnClickListener {
+            listener(item.fullPath)
+        }
+
         holder.itemView.setOnClickListener {
-            Log.d("CARD", "CLICKED")
             listener(item.fullPath)
         }
     }

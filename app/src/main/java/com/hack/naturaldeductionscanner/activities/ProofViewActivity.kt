@@ -23,6 +23,8 @@ class ProofViewActivity : AppCompatActivity() {
             imgProofView.load(File(data.getString("path")))
         }
 
+
+
         //Clicking back button to go back to main activity
         btnBack.setOnClickListener {
             finish()
