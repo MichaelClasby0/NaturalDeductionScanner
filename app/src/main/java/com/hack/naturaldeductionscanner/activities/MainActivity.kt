@@ -44,8 +44,16 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(Intent(this, CameraActivity::class.java), 1)
         }
 
-        val cardAdapter = ProofCardItemAdapter {
-            }
+        open_input.setOnClickListener{
+            val intent = Intent(this, ProofTextInputActivity::class.java)
+            startActivity(intent)
+        }
+
+        val cardAdapter =
+            ProofCardItemAdapter {path ->
+                val intent = Intent(this, ProofViewActivity::class.java)
+                intent.putExtra("path", path)
+                startActivity(intent)
 
 
         mainRecyclerView.apply {
@@ -121,7 +129,6 @@ class MainActivity : AppCompatActivity() {
         Log.e("FileName", currentFile.name)
         val tempFile = File(logicImagePath + currentFile.name)
         val modifiedDate = Date(tempFile.lastModified())
-
         return ProofCard(
             currentFile.name,
             modifiedDate.toString(),

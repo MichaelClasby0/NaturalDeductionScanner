@@ -16,9 +16,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:networkSecurityConfig="@xml/network_security_config">
-
-        <activity android:name=".activities.CameraActivity"
-            android:theme="@style/Camera"/>
+        <activity android:name=".activities.ProofTextInputActivity"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity android:name=".activities.DynamicEditTextActivity" />
+        <activity android:name=".activities.ProofViewActivity" />
+        <activity
+            android:name=".activities.CameraActivity"
+            android:theme="@style/Camera" />
         <activity android:name=".activities.TutorialActivity" />
         <activity android:name=".activities.TutorialMenuActivity" />
         <activity

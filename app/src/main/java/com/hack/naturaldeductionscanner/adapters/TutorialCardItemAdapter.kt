@@ -12,7 +12,9 @@ import kotlinx.android.synthetic.main.tutorial_card_item_layout.view.*
 
 data class TutorialCard(var title : String,
                         var description : String,
-                        var completed : String)
+                        var completed : String,
+                        var problemPath : String,
+                        var answerPath : String)
 
 class TutorialCardItemAdapter(private val listener: (TutorialCard) -> Unit) :
     ListAdapter<TutorialCard, TutorialCardItemAdapter.ViewHolder>(
