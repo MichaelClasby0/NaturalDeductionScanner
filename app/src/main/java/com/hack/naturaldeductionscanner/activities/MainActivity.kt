@@ -143,7 +143,7 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
                 val result = data!!.getStringExtra("file")!!
-                val postUrl = "https://logic.bunny.tilal6991.com"
+                val postUrl = "http://195.154.114.164:6200"
 
                 val stream = ByteArrayOutputStream()
                 val options = BitmapFactory.Options()
