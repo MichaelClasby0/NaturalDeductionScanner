@@ -15,6 +15,8 @@ import com.hack.naturaldeductionscanner.R
 import com.hack.naturaldeductionscanner.adapters.ProofCard
 import com.hack.naturaldeductionscanner.adapters.ProofCardItemAdapter
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -80,13 +82,15 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun postRequest(postUrl: String, postBody: RequestBody) {
+    private fun postRequest(postUrl: String, postBody: RequestBody): MutableLiveData<String> {
         val client = OkHttpClient()
 
         val request = Request.Builder()
             .url(postUrl)
             .post(postBody)
             .build()
+
+        val md = MutableLiveData<String>()
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
@@ -95,9 +99,12 @@ class MainActivity : AppCompatActivity() {
 
             override fun onResponse(call: Call, response: Response) {
                 Log.d("RES", response.body!!.string())
+                md.value = response.body!!.string()
             }
 
         })
+
+        return md
     }
 
 
@@ -149,20 +156,21 @@ class MainActivity : AppCompatActivity() {
                 val options = BitmapFactory.Options()
                 options.inPreferredConfig = Bitmap.Config.RGB_565
                 val bitmap = BitmapFactory.decodeFile(result, options)
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream)
                 val byteArray = stream.toByteArray()
 
                 val postBodyImage = MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
                     .addFormDataPart(
+                        "image",
                         "logic.jpg",
-                        result,
                         byteArray.toRequestBody("image/*jpg".toMediaTypeOrNull(), 0, byteArray.size)
                     )
                     .build()
 
-                postRequest(postUrl, postBodyImage)
-
+                postRequest(postUrl, postBodyImage).observe(this, androidx.lifecycle.Observer {
+                    Log.d("POST", it)
+                })
             }
         }
     }
