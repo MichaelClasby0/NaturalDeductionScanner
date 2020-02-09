@@ -30,9 +30,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-//    packagingOptions {
-//        exclude 'META-INF/core.kotlin_module'
-//    }
 }
 
 dependencies {
@@ -53,9 +50,11 @@ dependencies {
     implementation "androidx.camera:camera-view:1.0.0-alpha06"
     implementation "androidx.camera:camera-extensions:1.0.0-alpha06"
     implementation "androidx.camera:camera-lifecycle:1.0.0-alpha03"
+    implementation("com.squareup.okhttp3:okhttp:4.3.1")
 
 
     implementation 'com.google.android.material:material:1.2.0-alpha04'
+    implementation 'org.tensorflow:tensorflow-lite:2.1.0'
     implementation project(':sdk')
 
     implementation 'io.coil-kt:coil:0.9.5'
