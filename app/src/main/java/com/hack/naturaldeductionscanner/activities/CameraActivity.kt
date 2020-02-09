@@ -33,6 +33,7 @@ class CameraActivity : AppCompatActivity() {
                 return@runWithPermissions
             }
             camera_view.bindToLifecycle(this)
+            camera_view.enableTorch(true)
         }
 
         close.setOnClickListener {
