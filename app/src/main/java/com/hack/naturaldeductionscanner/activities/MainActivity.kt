@@ -16,6 +16,8 @@ import com.hack.naturaldeductionscanner.adapters.ProofCard
 import com.hack.naturaldeductionscanner.adapters.ProofCardItemAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -83,26 +85,30 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun postRequest(postUrl: String, postBody: RequestBody): MutableLiveData<String> {
-        val client = OkHttpClient()
-
-        val request = Request.Builder()
-            .url(postUrl)
-            .post(postBody)
-            .build()
-
         val md = MutableLiveData<String>()
 
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                Log.d("ERROR", e.toString())
-            }
+        GlobalScope.launch(Dispatchers.IO) {
+            val client = OkHttpClient()
 
-            override fun onResponse(call: Call, response: Response) {
-                Log.d("RES", response.body!!.string())
-                md.value = response.body!!.string()
-            }
+            val request = Request.Builder()
+                .url(postUrl)
+                .post(postBody)
+                .build()
 
-        })
+
+            client.newCall(request).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    Log.d("ERROR", e.toString())
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+                    GlobalScope.launch(Dispatchers.Main) {
+                        md.value = response.body!!.string()
+                    }
+                }
+
+            })
+        }
 
         return md
     }
