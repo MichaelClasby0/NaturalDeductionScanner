@@ -125,7 +125,7 @@ sportmonks==1.1.0
 SQLAlchemy==1.3.12
 team==1.0
 tensorboard==2.1.0
-tensorflow==2.1.0
+tensorflow==2.3.1
 tensorflow-datasets==2.0.0
 tensorflow-estimator==2.1.0
 tensorflow-metadata==0.21.1
