@@ -4,7 +4,7 @@ import numpy as np
 from PIL import Image
 
 
-def get_log_symb():
+def get_logic_symbols():
     lst_img = []
     lst_labels = []
     for cons in os.listdir("data/connectives/"):
@@ -30,4 +30,3 @@ def get_log_symb():
             elif filename == "rBracket":
                 lst_labels.append(33)
     return np.array(lst_img), np.array(lst_labels)
-

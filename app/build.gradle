@@ -68,5 +68,4 @@ dependencies {
     implementation 'com.afollestad.material-dialogs:core:3.2.1'
 
     implementation 'io.coil-kt:coil:0.9.5'
-
 }

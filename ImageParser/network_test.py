@@ -31,21 +31,21 @@ def processPrediction(predictions):
 
 
 
-# for x in range(6):
-#     img = Image.open("data/temp/ALL - " + str(x) + ".jpg")
-#     new_img = img.resize((28, 28))
-#     new_img.save("out.png")
-#     x_data = np.asarray(new_img).reshape(1, 28, 28, 1)
-#
-#     model = tf.keras.models.load_model('weights.h5', custom_objects={'leaky_relu': tf.nn.leaky_relu})
-#     raw_prediction = model.predict(x_data)
-#     processPrediction(raw_prediction[0])
-#
-# img = Image.open("data/temp/main - 3.jpg")
-# new_img = img.resize((28, 28))
-# new_img.save("out.png")
-# x_data = np.asarray(new_img).reshape(1, 28, 28, 1)
-#
-# model = tf.keras.models.load_model('weights.h5', custom_objects={'leaky_relu': tf.nn.leaky_relu})
-# raw_prediction = model.predict(x_data)
-# processPrediction(raw_prediction[0])
+for x in range(6):
+    img = Image.open("data/temp/ALL - " + str(x) + ".jpg")
+    new_img = img.resize((28, 28))
+    new_img.save("out.png")
+    x_data = np.asarray(new_img).reshape(1, 28, 28, 1)
+
+    model = tf.keras.models.load_model('weights.h5', custom_objects={'leaky_relu': tf.nn.leaky_relu})
+    raw_prediction = model.predict(x_data)
+    processPrediction(raw_prediction[0])
+
+img = Image.open("data/temp/main - 3.jpg")
+new_img = img.resize((28, 28))
+new_img.save("out.png")
+x_data = np.asarray(new_img).reshape(1, 28, 28, 1)
+
+model = tf.keras.models.load_model('weights.h5', custom_objects={'leaky_relu': tf.nn.leaky_relu})
+raw_prediction = model.predict(x_data)
+processPrediction(raw_prediction[0])
