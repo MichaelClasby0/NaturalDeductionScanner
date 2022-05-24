@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-tensorflow = "2.4.1"
+tensorflow = "2.6.4"
 opencv-python = "*"
 pillow = "*"
 scipy = "*"
